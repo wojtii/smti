@@ -6,3 +6,6 @@
 2. [pytest](https://github.com/pytest-dev/pytest)
 ### Launching tests:
 `pytest solver_test.py`
+
+## Credits
+https://github.com/DennisYurichev/SAT_SMT_by_example
