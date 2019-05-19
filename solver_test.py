@@ -125,3 +125,46 @@ def test_10x10():
     assert check(guyprefers, galprefers, res)
     assert res == {'ivy': 'abe', 'cath': 'bob', 'dee': 'col', 'fay': 'dan', 'jan': 'ed',
                    'bea': 'fred', 'gay': 'gav', 'eve': 'hal', 'hope': 'ian', 'abi': 'jon'}
+
+def test_incomp_5x5():
+    abe, bob, col, dan, ed = 0, 1, 2, 3, 4
+    abi, bea, cath, dee, eve = 0, 1, 2, 3, 4
+
+    p = {
+        'men': {
+            abe: [bea, dee, eve],
+            bob: [abi, cath],
+            col: [dee, bea, cath, eve, abi],
+            dan: [eve, cath, abi, dee],
+            ed: [dee, eve],
+        },
+
+        'women': {
+            abi: [bob, col, dan],
+            bea: [col, abe],
+            cath: [col, dan, bob],
+            dee: [ed, abe, dan, col],
+            eve: [abe, ed, col, dan],
+        },
+        'men_str': ["abe", "bob", "col", "dan", "ed"],
+        'women_str': ["abi", "bea", "cath", "dee", "eve"],
+    }
+
+    guyprefers = {
+        'abe': ['bea', 'dee', 'eve'],
+        'bob': ['abi', 'cath'],
+        'col': [ 'dee', 'bea', 'cath', 'eve', 'abi'],
+        'dan': ['eve', 'cath', 'abi', 'dee'],
+        'ed': ['dee', 'eve'],
+    }
+    galprefers = {
+        'abi': ['bob', 'col', 'dan'],
+        'bea': ['col', 'abe'],
+        'cath': ['col', 'dan', 'bob'],
+        'dee': ['ed', 'abe', 'dan', 'col'],
+        'eve': ['abe', 'ed', 'col', 'dan']
+    }
+
+    res = solve(p)
+    assert check(guyprefers, galprefers, res)
+    assert res == {'cath': 'dan', 'abi': 'bob', 'bea': 'col', 'eve': 'abe', 'dee': 'ed'}

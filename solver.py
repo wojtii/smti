@@ -47,11 +47,11 @@ def solve(data):
     woman_would_prefer = [[Bool(f'woman_would_prefer_{w}_{m}') for m in size_range] for w in size_range]
 
     for m in size_range:
-        for w in size_range:
+        for w in men_prefer[m]:
             s.add(man_would_prefer[m][w] == (men_prefer[m].index(w) < men_choice_in_own_rating[m]))
 
     for w in size_range:
-        for m in size_range:
+        for m in women_prefer[w]:
             s.add(woman_would_prefer[w][m] == (women_prefer[w].index(m) < women_choice_in_own_rating[w]))
 
     for m in size_range:
