@@ -34,37 +34,39 @@ def solve(data):
     for i in size_range:
         s.add(women_choice[i] == _if_x(men_choice, i, 0))
 
-    men_choice_in_own_rating = [Int(f'men_choice_in_own_rating_{i}') for i in size_range]
-    women_choice_in_own_rating = [Int(f'women_choice_in_own_rating_{i}') for i in size_range]
+    men_own_choice = [Int(f'men_own_choice_{i}') for i in size_range]
+    women_own_choice = [Int(f'women_own_choice_{i}') for i in size_range]
 
     for m in size_range:
-        s.add(men_choice_in_own_rating[m] == _if_xy(men_choice[m], men_prefer[m], 0))
+        s.add(men_own_choice[m] == _if_xy(men_choice[m], men_prefer[m], 0))
 
     for w in size_range:
-        s.add(women_choice_in_own_rating[w] == _if_xy(women_choice[w], women_prefer[w], 0))
+        s.add(women_own_choice[w] == _if_xy(women_choice[w], women_prefer[w], 0))
 
-    man_would_prefer = [[Bool(f'man_would_prefer_{m}_{w}') for w in size_range] for m in size_range]
-    woman_would_prefer = [[Bool(f'woman_would_prefer_{w}_{m}') for m in size_range] for w in size_range]
+    men_want = [[Bool(f'men_want_{m}_{w}') for w in size_range] for m in size_range]
+    women_want = [[Bool(f'women_want_{w}_{m}') for m in size_range] for w in size_range]
 
     for m in size_range:
         for w in men_prefer[m]:
-            s.add(man_would_prefer[m][w] == (men_prefer[m].index(w) < men_choice_in_own_rating[m]))
+            s.add(men_want[m][w] == (men_prefer[m].index(w) < men_own_choice[m]))
 
     for w in size_range:
         for m in women_prefer[w]:
-            s.add(woman_would_prefer[w][m] == (women_prefer[w].index(m) < women_choice_in_own_rating[w]))
+            s.add(women_want[w][m] == (women_prefer[w].index(m) < women_own_choice[w]))
 
     for m in size_range:
         for w in size_range:
-            s.add(Not(And(man_would_prefer[m][w], woman_would_prefer[w][m])))
+            s.add(Not(And(men_want[m][w], women_want[w][m])))
 
     if s.check() != sat:
         raise Exception('not a valid input')
 
+    with open('z3_input.txt', 'w') as f:
+        f.write(s.sexpr())
+
     mdl = s.model()
     res = {}
     for m in size_range:
-        w = mdl[men_choice[m]].as_long()
-        res[women_str[w]] = men_str[m]
+        res[women_str[mdl[men_choice[m]].as_long()]] = men_str[m]
 
     return res

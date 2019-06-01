@@ -114,7 +114,7 @@ class Preferences:
 
     def solve(self):
         res = solve(p)
-        messagebox.showinfo("Reulst of matching", str(res))
+        messagebox.showinfo("Results of matching", str(res))
 
     @staticmethod
     def int2ordinal(num):
@@ -123,10 +123,14 @@ class Preferences:
             end_digits = int(num) % 100
         else:
             end_digits = int(num) % 10
-        if end_digits == 1: return (num + "st")
-        if end_digits == 2: return (num + "nd")
-        if end_digits == 3: return (num + "rd")
-        else: return (num + "th")
+        if end_digits == 1:
+            return (num + "st")
+        if end_digits == 2:
+            return (num + "nd")
+        if end_digits == 3:
+            return (num + "rd")
+        else:
+            return (num + "th")
 
     @staticmethod
     def ordinal2int(ordinal):
@@ -135,4 +139,3 @@ class Preferences:
         else:
             return -1
         return int(ordinal) - 1
-
