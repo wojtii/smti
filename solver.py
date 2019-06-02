@@ -65,8 +65,6 @@ def solve(data):
         f.write(s.sexpr())
 
     mdl = s.model()
-    res = {}
-    for m in size_range:
-        res[women_str[mdl[men_choice[m]].as_long()]] = men_str[m]
-
-    return res
+    with open('z3_model.txt', 'w') as f:
+        f.write(str(mdl))
+    return {women_str[mdl[men_choice[m]].as_long()]: men_str[m] for m in size_range}
