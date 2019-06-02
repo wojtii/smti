@@ -88,14 +88,16 @@ class Preferences:
         for widget in self.autoCreatedWidgets:
             if 'label' not in str(widget).split(".")[-1]:
                 choose = self.ordinal2int(widget.get())
+                if self.currentSex == 'Man':
+                    index_current_pref = men.index(self.currentPref)
+                else:
+                    index_current_pref = women.index(self.currentPref)
                 if self.currentSex == 'Man' and choose > -1:
                     pref_str[choose] = women[index]
                     pref_int[choose] = index
-                    index_current_pref = men.index(self.currentPref)
                 elif self.currentSex == 'Woman' and choose > -1:
                     pref_str[choose] = men[index]
                     pref_int[choose] = index
-                    index_current_pref = women.index(self.currentPref)
                 index += 1
         update_global_pref({index_current_pref: list(filter(lambda x: x >= 0, pref_int))}, self.currentSex)
         self.update_pref_box()
@@ -134,7 +136,7 @@ class Preferences:
 
     @staticmethod
     def ordinal2int(ordinal):
-        if ordinal != "--":
+        if ordinal and ordinal != "--":
             ordinal = ordinal.replace("st", "").replace("nd", "").replace("rd", "").replace("th", "")
         else:
             return -1
