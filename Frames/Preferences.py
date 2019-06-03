@@ -115,8 +115,11 @@ class Preferences:
             self.pref_box.insert(END, line)
 
     def solve(self):
-        res = solve(p)
-        messagebox.showinfo("Results of matching", str(res))
+        try:
+            res = solve(p)
+            messagebox.showinfo("Results of matching", str(res))
+        except:
+            messagebox.showinfo("Error", "Invalid input")
 
     @staticmethod
     def int2ordinal(num):
